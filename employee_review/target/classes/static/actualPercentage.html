@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actual Percentage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 60%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        table tr:hover {
+            background-color: #ddd;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Actual Percentage of Employee Ratings</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Rating</th>
+                    <th>Actual Percentage</th>
+                </tr>
+            </thead>
+            <tbody id="actualPercentageData">
+                <!-- Data will be inserted dynamically here -->
+            </tbody>
+        </table>
+
+        <button onclick="goBack()">Go Back</button>
+    </div>
+
+    <script>
+        // Fetching actual percentages from the backend
+        fetch('/api/employees/actual-percentage')
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById('actualPercentageData');
+                for (const [rating, percentage] of Object.entries(data)) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `<td>${rating}</td><td>${percentage.toFixed(2)}%</td>`;
+                    tableBody.appendChild(row);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error fetching actual percentages');
+            });
+
+        // Function to go back to the previous page
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>

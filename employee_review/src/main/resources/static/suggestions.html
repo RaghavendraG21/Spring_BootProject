@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Performance Overview</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 30px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            margin-bottom: 30px;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        button {
+            padding: 12px 25px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:focus {
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Employee Performance Overview</h1>
+
+        <!-- Employee Information Table -->
+        <h2>Employee Information</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Employee ID</th>
+                    <th>Name</th>
+                    <th>Rating</th>
+                </tr>
+            </thead>
+            <tbody id="employeeData">
+                <!-- Data will be inserted dynamically here -->
+            </tbody>
+        </table>
+
+        <!-- Performance Percentage Table -->
+        <h2>Performance Percentage</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Rating</th>
+                    <th>Performance Percentage</th>
+                </tr>
+            </thead>
+            <tbody id="performancePercentageData">
+                <!-- Data will be inserted dynamically here -->
+            </tbody>
+        </table>
+
+        <!-- Suggestions Table -->
+        <h2>Suggestions for Improvement</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Suggestion</th>
+                </tr>
+            </thead>
+            <tbody id="suggestionsData">
+                <!-- Data will be inserted dynamically here -->
+            </tbody>
+        </table>
+
+        <!-- Performance Deviation Table -->
+        <h2>Performance Deviation</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Rating</th>
+                    <th>Deviation</th>
+                </tr>
+            </thead>
+            <tbody id="deviationData">
+                <!-- Data will be inserted dynamically here -->
+            </tbody>
+        </table>
+
+        <button onclick="goBack()">Go Back</button>
+    </div>
+
+    <script>
+        // Fetch employee data
+        fetch('/api/employees')
+            .then(response => response.json())
+            .then(data => {
+                const employeeTableBody = document.getElementById('employeeData');
+                data.forEach(employee => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `<td>${employee.id}</td><td>${employee.name}</td><td>${employee.rating}</td>`;
+                    employeeTableBody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching employee data:', error);
+                alert('Error fetching employee data');
+            });
+
+        // Fetch performance percentage data
+        fetch('/api/employees/actual-percentage')
+            .then(response => response.json())
+            .then(data => {
+                const performanceTableBody = document.getElementById('performancePercentageData');
+                Object.entries(data).forEach(([rating, percentage]) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `<td>${rating}</td><td>${percentage.toFixed(2)}%</td>`;
+                    performanceTableBody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching performance percentage data:', error);
+                alert('Error fetching performance percentage data');
+            });
+
+        // Fetch suggestions for improvement
+        fetch('/api/employees/suggestions')
+            .then(response => response.json())
+            .then(data => {
+                const suggestionsTableBody = document.getElementById('suggestionsData');
+                data.forEach(suggestion => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `<td>${suggestion}</td>`;
+                    suggestionsTableBody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching suggestions:', error);
+                alert('Error fetching suggestions');
+            });
+
+        // Fetch performance deviation data
+        fetch('/api/employees/deviation')
+            .then(response => response.json())
+            .then(data => {
+                const deviationTableBody = document.getElementById('deviationData');
+                Object.entries(data).forEach(([rating, deviation]) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `<td>${rating}</td><td>${deviation.toFixed(2)}%</td>`;
+                    deviationTableBody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching deviation data:', error);
+                alert('Error fetching deviation data');
+            });
+
+        // Go back to previous page
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>

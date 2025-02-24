@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Employee</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            font-size: 16px;
+            color: #333;
+            display: block;
+        }
+        input[type="number"],
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-top: 8px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #resultMessage {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #resultMessage p {
+            font-size: 18px;
+            color: #333;
+        }
+        #resultMessage button {
+            background-color: #f44336;
+        }
+        #resultMessage button:hover {
+            background-color: #e53935;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Update Employee</h1>
+        <form id="updateEmployeeForm">
+            <div class="form-group">
+                <label for="employeeId">Employee ID</label>
+                <input type="number" id="employeeId" name="employeeId" required>
+            </div>
+
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="rating">Rating</label>
+                <select id="rating" name="rating" required>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="E">E</option>
+                </select>
+            </div>
+
+            <button type="submit">Update Employee</button>
+        </form>
+
+        <!-- Success or Error Message (hidden by default) -->
+        <div id="resultMessage" style="display:none;">
+            <p id="message"></p>
+            <button onclick="goBack()">Go Back</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("updateEmployeeForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const employeeId = document.getElementById("employeeId").value;
+            const name = document.getElementById("name").value;
+            const rating = document.getElementById("rating").value;
+
+            // Checking if the employee ID and other fields are provided
+            if (!employeeId || !name || !rating) {
+                alert("Please fill out all fields.");
+                return;
+            }
+
+            // Prepare the employee data to send in the PUT request
+            const updatedEmployee = {
+                id: employeeId,
+                name: name,
+                rating: rating
+            };
+
+            // Sending PUT request to the backend
+            fetch(`/api/employees/${employeeId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedEmployee)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    // If the response is not ok, show error message
+                    throw new Error("Error updating employee.");
+                }
+                return response.json(); // Assuming response returns the updated employee
+            })
+            .then(data => {
+                showResultMessage(`Employee with ID ${data.id} updated successfully!`); // Show success message
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showResultMessage("Error updating employee."); // Show error message
+            });
+        });
+
+        // Show result message and hide form after successful update
+        function showResultMessage(message) {
+            document.getElementById("updateEmployeeForm").style.display = 'none';
+            document.getElementById("message").textContent = message;
+            document.getElementById("resultMessage").style.display = 'block';
+        }
+
+        // Function to go back to the previous page
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>

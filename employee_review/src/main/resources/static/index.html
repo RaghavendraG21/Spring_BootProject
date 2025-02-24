@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Performance</title>
+    <style>
+        /* General body styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #1e1e2f;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+        }
+
+        /* Main container styling */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px;
+            padding: 20px;
+            background-color: #2d2d3b;
+            border-radius: 10px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Title styling */
+        h1 {
+            font-size: 2.5em;
+            color: #e0e0e0;
+            margin-bottom: 30px;
+        }
+
+        /* Card container */
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            justify-items: center;
+            width: 100%;
+            margin-top: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Card styles */
+        .card {
+            background-color: #3a3a4f;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Card hover effect */
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Card title styling */
+        .card h2 {
+            font-size: 1.6em;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        /* Card description */
+        .card p {
+            font-size: 1.2em;
+            color: #a8a8b2;
+            margin: 10px 0;
+        }
+
+        /* Button styling inside the cards */
+        .card a {
+            font-size: 1.1em;
+            color: #4CAF50;
+            text-decoration: none;
+            margin-top: 15px;
+            padding: 8px 20px;
+            background-color: #5c5c73;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .card a:hover {
+            background-color: #4CAF50;
+            color: #fff;
+        }
+
+        /* Responsive styling */
+        @media (max-width: 768px) {
+            .card-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Employee Performance Management</h1>
+        
+        <div class="card-container">
+            <div class="card" onclick="window.location.href='add.html'">
+                <h2>Add Employee</h2>
+                <p>Insert new employee details</p>
+                <a href="add.html">Go to Form</a>
+            </div>
+            <div class="card" onclick="window.location.href='update.html'">
+                <h2>Update Employee</h2>
+                <p>Modify existing employee information</p>
+                <a href="update.html">Go to Form</a>
+            </div>
+            <div class="card" onclick="window.location.href='delete.html'">
+                <h2>Delete Employee</h2>
+                <p>Remove employee from the list</p>
+                <a href="delete.html">Go to Form</a>
+            </div>
+            <div class="card" onclick="window.location.href='fetch.html'">
+                <h2>Fetch All Employees</h2>
+                <p>View the list of all employees</p>
+                <a href="fetch.html">View Employees</a>
+            </div>
+            <div class="card" onclick="window.location.href='distribution.html'">
+                <h2>Performance Distribution</h2>
+                <p>View employee performance distribution</p>
+                <a href="distribution.html">View Distribution</a>
+            </div>
+            <div class="card" onclick="window.location.href='actualPercentage.html'">
+                <h2>Actual Percentage</h2>
+                <p>Check actual performance percentages</p>
+                <a href="actualPercentage.html">View Data</a>
+            </div>
+            <div class="card" onclick="window.location.href='deviation.html'">
+                <h2>Performance Deviation</h2>
+                <p>Analyze performance deviations</p>
+                <a href="deviation.html">View Data</a>
+            </div>
+            <div class="card" onclick="window.location.href='suggestions.html'">
+                <h2>Suggestions</h2>
+                <p>View suggestions for improvements</p>
+                <a href="suggestions.html">View Suggestions</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

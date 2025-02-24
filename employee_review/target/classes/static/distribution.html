@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Performance Distribution</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Employee Performance Distribution</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Rating</th>
+                    <th>Standard Percentage</th>
+                    <th>Actual Percentage</th>
+                    <th>Deviation</th>
+                </tr>
+            </thead>
+            <tbody id="distributionData">
+                <!-- Data will be inserted dynamically here -->
+            </tbody>
+        </table>
+
+        <button onclick="goBack()">Go Back</button>
+    </div>
+
+    <script>
+        // Fetching employee performance distribution data from the backend
+        fetch('/api/employees/detailed-performance')
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById('distributionData');
+                data.forEach(employee => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${employee.name}</td>
+                        <td>${employee.rating}</td>
+                        <td>${employee.standardPercentage.toFixed(2)}%</td>
+                        <td>${employee.actualPercentage.toFixed(2)}%</td>
+                        <td>${employee.deviation.toFixed(2)}%</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error fetching performance distribution data');
+            });
+
+        // Function to go back to the previous page
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>
